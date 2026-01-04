@@ -1,61 +1,99 @@
-# 🚀 NexusHire AI | Enterprise Resume Screener
+# 🤖 NexusHire AI | Enterprise-Grade AI Recruitment Platform
 
-NexusHire AI is a professional, full-stack recruitment automation platform that uses Generative AI to screen hundreds of resumes in seconds. Built with a focus on **security, multi-tenancy, and whitelabeling**, it allows recruiters to automate the entire screening-to-outreach pipeline.
+[![Backend Deployment](https://img.shields.io/badge/Render-Backend-blue?style=for-the-badge&logo=render)](https://nexushireai.onrender.com)
+[![Frontend Deployment](https://img.shields.io/badge/Vercel-Frontend-black?style=for-the-badge&logo=vercel)](https://nexus-hire-ai.vercel.app/)
+
+NexusHire AI is a professional, multi-tenant SaaS platform designed to automate the heavy lifting of high-volume recruitment. It leverages Large Language Models (LLMs) to screen resumes against dynamic job requirements, handles personalized candidate outreach, and provides recruiters with a premium dashboard for real-time tracking.
+
+---
 
 ## 🔗 Live Demo
-- **Frontend (Vercel)**: [https://nexus-hire-ai.vercel.app/](https://nexus-hire-ai.vercel.app/)
-- **Backend (Render)**: [https://nexushireai.onrender.com](https://nexushireai.onrender.com)
+*   **Web Portal**: [https://nexus-hire-ai.vercel.app/](https://nexus-hire-ai.vercel.app/)
+*   **API Health**: [https://nexushireai.onrender.com/](https://nexushireai.onrender.com/)
 
 ---
 
-## 🌟 Key Features
-- **🤖 LLM-Powered Evaluation**: Integration with **Groq (Llama 3.1)** for precise, requirement-based resume screening.
-- **🔐 Enterprise Security**: Secure **JWT-based authentication** with PBKDF2 password hashing.
-- **🏢 Multi-Tenancy**: Strict data isolation—recruiters only see their own screening batches and results.
-- **🎨 Custom Whitelabeling**: Branding support for company names, taglines, and personalized email templates.
-- **📧 SMTP Automation**: Dual-mode support for **Implicit SSL** and **STARTTLS**, allowing recruiters to use their own corporate email domains.
-- **💾 Persistent History**: Full database integration with **SQLAlchemy** for historical batch tracking.
-- **📈 Professional Dashboard**: Real-time progress tracking, analytics, and one-click **CSV export**.
+## 🌟 Solution Overview
+Recruiters today are overwhelmed by hundreds of applications per role. NexusHire AI solves this by:
+1.  **AI-Validation**: Moving beyond keyword matching to true semantic understanding of resume content.
+2.  **Whitelabeling**: Allowing staffing agencies to send emails using their own company branding and SMTP servers.
+3.  **Data Persistence**: Organizing thousands of applicants into searchable, historical batches.
 
 ---
 
-## 🛠️ Tech Stack
-- **Backend**: Python, FastAPI, SQLAlchemy (ORM), Jose (JWT), Passlib.
-- **AI/LLM**: Groq Cloud API.
-- **Frontend**: Modern Vanilla JS, CSS3 (Glassmorphism), HTML5.
-- **Infrastructure**: Render (Service), Vercel (Client), SQLite (Database).
+## 🛠️ Key Technical Features
+
+### 1. 🔐 Security & Identity
+- **JWT Authentication**: Secure, stateless user sessions using JSON Web Tokens.
+- **Password Protection**: Industry-standard PBKDF2 hashing using the `passlib` library.
+- **Strict Multi-Tenancy**: Database-level isolation ensuring recruiters only access their own data.
+
+### 2. 🧠 Intelligent AI Evaluator
+- **Dynamic Prompts**: The system constructs complex AI prompts based on the specific `Role Name` and `Role Requirements` provided by the recruiter.
+- **LLM Integration**: Powered by Groq Cloud (Llama 3.1) for lightning-fast inference (< 1s per resume).
+
+### 3. 📧 Enterprise Outreach
+- **Dynamic Branding**: Automated email templates that use the recruiter's Company Name and Tagline.
+- **Custom SMTP Support**: Dual SSL/STARTTLS support for professional mail servers (Gmail, Outlook, SES, etc.).
+- **Smart Scheduling**: Automatic generation of Google Meet links for shortlisted candidates.
+
+### 4. 📊 Professional Dashboard
+- **Real-Time Feed**: Live progress bars and status updates during the screening process.
+- **Data Export**: One-click **CSV Export** for seamless integration with ATS or Excel.
+- **Historical Analysis**: View and re-download results from any past screening batch.
 
 ---
 
-## 🚀 Setup & Installation
+## 🧩 Architectural Breakdown
 
-### 1. Clone the Repository
+```mermaid
+graph TD
+    A[Recruiter Web Portal] -->|JWT Auth| B[FastAPI Backend]
+    B -->|Background Tasks| C[AI Engine - Groq]
+    B -->|Fetch| D[Google Sheets/Drive API]
+    B -->|Persistence| E[SQLite/SQLAlchemy]
+    B -->|Outreach| F[Gmail API / Custom SMTP]
+    C -->|Analyze| B
+    B -->|Live Status| A
+```
+
+---
+
+## ⚙️ Core Stack
+- **Backend**: Python, FastAPI, SQLAlchemy
+- **Database**: SQLite (Production-ready via SQLAlchemy ORM)
+- **AI**: Groq API (Llama 3.1)
+- **Frontend**: Vanilla JS, Vanilla CSS (Custom Design System)
+- **Integrations**: Google Sheets, Google Drive, Gmail OAuth2
+
+---
+
+## 🚀 Getting Started
+
+### 1. Installation
 ```bash
 git clone https://github.com/abhinaymente/NexusHireAI.git
 cd NexusHireAI
-```
-
-### 2. Install Dependencies
-```bash
 pip install -r backend/requirements.txt
 ```
 
-### 3. Configure Environment Variables
-Create a `.env` file in the root directory:
-```bash
+### 2. Environment Setup
+Create a `.env` file in the root:
+```ini
 GROQ_API_KEY=your_key
-SECRET_KEY=your_random_secret
-GOOGLE_CREDENTIALS=base64_encoded_json
-GMAIL_TOKEN=base64_encoded_json
+SECRET_KEY=your_secure_random_string
+GOOGLE_CREDENTIALS=base64_encoded_service_account_json
+GMAIL_TOKEN=base64_encoded_oauth_token
 ```
 
 ---
 
 ## 👤 Author
 **Abhinay Mente**  
-Computer Science Engineering Student  
+*Computer Science Engineering Student*
 
-- Focused on **Backend Engineering** and **AI Automation**.
-- Passionate about building scalable, secure, and user-centric systems.
+Focused on building secure, scalable, and AI-integrated backend systems. I am passionate about solving real-world business problems through clean, maintainable code.
 
-📌 *This project demonstrates the integration of LLMs with enterprise-grade features like JWT auth and multi-tenancy to solve real-world recruitment challenges.*
+---
+
+📌 *This project was built to demonstrate full-stack proficiency, deployment architecture, and the practical application of LLMs in the HR-Tech space.*
