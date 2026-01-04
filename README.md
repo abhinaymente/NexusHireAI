@@ -9,7 +9,6 @@ NexusHire AI is a professional, multi-tenant SaaS platform designed to automate 
 
 ## 🔗 Live Demo
 *   **Web Portal**: [https://nexus-hire-ai.vercel.app/](https://nexus-hire-ai.vercel.app/)
-*   **API Health**: [https://nexushireai.onrender.com/](https://nexushireai.onrender.com/)
 
 ---
 
@@ -65,26 +64,6 @@ graph TD
 - **AI**: Groq API (Llama 3.1)
 - **Frontend**: Vanilla JS, Vanilla CSS (Custom Design System)
 - **Integrations**: Google Sheets, Google Drive, Gmail OAuth2
-
----
-
-## 🚀 Getting Started
-
-### 1. Installation
-```bash
-git clone https://github.com/abhinaymente/NexusHireAI.git
-cd NexusHireAI
-pip install -r backend/requirements.txt
-```
-
-### 2. Environment Setup
-Create a `.env` file in the root:
-```ini
-GROQ_API_KEY=your_key
-SECRET_KEY=your_secure_random_string
-GOOGLE_CREDENTIALS=base64_encoded_service_account_json
-GMAIL_TOKEN=base64_encoded_oauth_token
-```
 
 ---
 
