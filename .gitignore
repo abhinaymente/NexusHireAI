@@ -48,3 +48,5 @@ images/
 unused/
 verify_v2_output.txt
 url.txt
+# Local Database
+screening.db

@@ -1,138 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Resume Screening</title>
-
+  <title>NexusHire AI | Enterprise Resume Screener</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="config.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #0ea5e9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%);
+      color: var(--text-main);
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      padding: 40px 20px;
     }
-    .card {
-      background: rgba(255,255,255,0.95);
+
+    .container {
       width: 100%;
-      max-width: 480px;
-      padding: 50px 40px;
-      border-radius: 24px;
-      box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+      max-width: 800px;
+    }
+
+    header {
       text-align: center;
+      margin-bottom: 40px;
     }
-    .icon-wrapper {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 25px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 20px;
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .tabs {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      color: white;
-    }
-    h1 { margin-bottom: 12px; color: #1a202c; }
-    .subtitle { color: #718096; margin-bottom: 35px; }
-    .input-group { margin-bottom: 24px; }
-    input {
-      width: 100%;
-      padding: 16px;
+      gap: 10px;
+      margin-bottom: 30px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 5px;
       border-radius: 12px;
-      border: 2px solid #e2e8f0;
-      font-size: 15px;
     }
-    button {
-      width: 100%;
-      padding: 16px;
-      border-radius: 12px;
-      border: none;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      font-size: 16px;
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
       cursor: pointer;
-    }
-    button:disabled { background: #cbd5e0; cursor: not-allowed; }
-    .status {
-      margin-top: 24px;
-      padding: 16px;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 600;
+      color: var(--text-muted);
+      transition: 0.3s;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab-content {
       display: none;
     }
-    .success { background: #d4edda; color: #155724; }
-    .processing { background: #fff3cd; color: #856404; }
-    .error { background: #f8d7da; color: #721c24; }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .toggle-group input {
+      width: auto;
+    }
+
+    #submitBtn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+
+    #submitBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+    }
+
+    #submitBtn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      display: none;
+      font-weight: 600;
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .success {
+      background: rgba(34, 197, 94, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <div class="icon-wrapper">🤖</div>
-    <h1>AI Resume Screening</h1>
-    <p class="subtitle">Automated resume evaluation & candidate communication</p>
+  <div class="container">
+    <header
+      style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 800px; margin-bottom: 40px;">
+      <div style="text-align: left;">
+        <h1>NexusHire AI</h1>
+        <p>Enterprise-grade AI resume screening & whitelabeling</p>
+      </div>
+      <button onclick="logout()"
+        style="padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; color: var(--text-muted); cursor: pointer; font-family: inherit; font-size: 0.9rem;">Sign
+        Out</button>
+    </header>
 
-    <div class="input-group">
-      <input id="sheet" placeholder="https://docs.google.com/spreadsheets/..." />
+    <div class="glass-card">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(0)">General</div>
+        <div class="tab" onclick="showTab(1)">Role Details</div>
+        <div class="tab" onclick="showTab(2)">Email Setup</div>
+      </div>
+
+      <!-- TAB 0: General -->
+      <div class="tab-content active">
+        <div class="input-group">
+          <label>Google Sheet Link</label>
+          <input id="sheet" placeholder="https://docs.google.com/spreadsheets/..." />
+        </div>
+        <div class="grid-2">
+          <div class="input-group">
+            <label>Company Name</label>
+            <input id="company_name" value="DUDE TECH" />
+          </div>
+          <div class="input-group">
+            <label>Tagline</label>
+            <input id="tagline" value="Building smart hiring systems" />
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: Role Details -->
+      <div class="tab-content">
+        <div class="input-group">
+          <label>Target Role Name</label>
+          <input id="role_name" value="Software Engineer" />
+        </div>
+        <div class="input-group">
+          <label>Screening Requirements</label>
+          <textarea id="role_requirements" rows="4">Programming skills AND CS/IT education</textarea>
+        </div>
+      </div>
+
+      <!-- TAB 2: Email Setup -->
+      <div class="tab-content">
+        <div class="toggle-group" onclick="toggleSmtp()">
+          <input type="checkbox" id="use_own_smtp" style="width: 20px; height: 20px;">
+          <label style="margin:0; cursor: pointer;">Use Custom SMTP Server (Pro)</label>
+        </div>
+
+        <div id="smtp_fields" style="display: none; border-top: 1px solid var(--border); padding-top: 20px;">
+          <p
+            style="font-size: 0.85rem; color: #fbbf24; margin-bottom: 20px; padding: 10px; background: rgba(251, 191, 36, 0.1); border-radius: 8px;">
+            🔒 <strong>Security Note:</strong> We do not store your credentials. They are only used for the current
+            screening batch. We recommend using an <strong>App Password</strong>.
+          </p>
+          <div class="grid-2">
+            <div class="input-group">
+              <label>SMTP Host</label>
+              <input id="smtp_host" placeholder="smtp.gmail.com" />
+            </div>
+            <div class="input-group">
+              <label>Port</label>
+              <input id="smtp_port" value="465" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="input-group">
+              <label>Username (Email)</label>
+              <input id="smtp_user" placeholder="hr@yourcompany.com" />
+            </div>
+            <div class="input-group">
+              <label>App Password</label>
+              <input id="smtp_pass" type="password" />
+            </div>
+          </div>
+        </div>
+        <p id="smtp_desc" style="font-size: 0.8rem; color: var(--text-muted);">By default, we use our secure system API
+          to send emails with your company name as the sender.</p>
+      </div>
+
+      <button id="submitBtn" onclick="startProcess()">Launch Screening Process</button>
+
+      <div class="status" id="status"></div>
     </div>
-
-    <button id="submitBtn" onclick="startProcess()">Start Screening</button>
-
-    <div class="status" id="status"></div>
   </div>
 
   <script>
-    // ✅ LIVE BACKEND (Render)
-    const API_URL = "https://ai-resume-screening-styc.onrender.com";
+    // Auth Check
+    const token = localStorage.getItem('hireai_token');
+    if (!token) window.location.href = 'login.html';
+
+    function showTab(idx) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.tab-content').forEach((c, i) => {
+        c.classList.toggle('active', i === idx);
+      });
+    }
+
+    function toggleSmtp() {
+      const checked = document.getElementById("use_own_smtp").checked;
+      document.getElementById("smtp_fields").style.display = checked ? "block" : "none";
+    }
 
     async function startProcess() {
-      const link = document.getElementById("sheet").value.trim();
-      const status = document.getElementById("status");
       const btn = document.getElementById("submitBtn");
+      const status = document.getElementById("status");
 
-      if (!link || !link.includes("docs.google.com/spreadsheets")) {
-        status.style.display = "block";
-        status.className = "status error";
-        status.innerText = "❌ Please enter a valid Google Sheet link";
+      const payload = {
+        sheet_link: document.getElementById("sheet").value.trim(),
+        company_name: document.getElementById("company_name").value.trim(),
+        tagline: document.getElementById("tagline").value.trim(),
+        role_name: document.getElementById("role_name").value.trim(),
+        role_requirements: document.getElementById("role_requirements").value.trim(),
+        use_own_smtp: document.getElementById("use_own_smtp").checked
+      };
+
+      if (payload.use_own_smtp) {
+        payload.smtp_config = {
+          host: document.getElementById("smtp_host").value.trim(),
+          port: parseInt(document.getElementById("smtp_port").value),
+          user: document.getElementById("smtp_user").value.trim(),
+          password: document.getElementById("smtp_pass").value.trim()
+        };
+      }
+
+      if (!payload.sheet_link.includes("docs.google.com/spreadsheets")) {
+        showStatus("❌ Please enter a valid Google Sheet link", "error");
         return;
       }
 
       btn.disabled = true;
-      status.style.display = "block";
-      status.className = "status processing";
-      status.innerText = "⏳ Starting resume screening...";
+      showStatus("⏳ Initializing AI agents...", "success");
 
       try {
         const res = await fetch(`${API_URL}/process`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sheet_link: link })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
         });
 
         if (!res.ok) throw new Error();
 
-        status.className = "status success";
-        status.innerText =
-          "✅ Processing started successfully. Redirecting to results...";
-
-        // ✅ reliable redirect
-        setTimeout(() => {
-          window.location.href = "results.html";
-        }, 1200);
+        showStatus("🚀 Process started! Redirecting to Dashboard...", "success");
+        setTimeout(() => window.location.href = "results.html", 1500);
 
       } catch (err) {
-        status.className = "status error";
-        status.innerText =
-          "❌ Unable to start process. Please check backend connection.";
-      } finally {
+        showStatus("❌ Connection failed. Check if backend is live.", "error");
         btn.disabled = false;
       }
     }
+
+    function showStatus(text, type) {
+      const status = document.getElementById("status");
+      status.style.display = "block";
+      status.className = `status ${type}`;
+      status.innerText = text;
+    }
+    function logout() {
+      localStorage.removeItem('hireai_token');
+      window.location.href = 'login.html';
+    }
   </script>
 </body>
+
 </html>
