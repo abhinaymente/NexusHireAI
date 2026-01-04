@@ -2,6 +2,10 @@
 
 [![Backend Deployment](https://img.shields.io/badge/Render-Backend-blue?style=for-the-badge&logo=render)](https://nexushireai.onrender.com)
 [![Frontend Deployment](https://img.shields.io/badge/Vercel-Frontend-black?style=for-the-badge&logo=vercel)](https://nexus-hire-ai.vercel.app/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 NexusHire AI is a professional, multi-tenant SaaS platform designed to automate the heavy lifting of high-volume recruitment. It leverages Large Language Models (LLMs) to screen resumes against dynamic job requirements, handles personalized candidate outreach, and provides recruiters with a premium dashboard for real-time tracking.
 
@@ -64,6 +68,23 @@ graph TD
 - **AI**: Groq API (Llama 3.1)
 - **Frontend**: Vanilla JS, Vanilla CSS (Custom Design System)
 - **Integrations**: Google Sheets, Google Drive, Gmail OAuth2
+
+---
+
+## 🏃 User Workflow
+1.  **Onboarding**: Recruiter creates an account and logs into the secure dashboard.
+2.  **Configuration**: Defines the job role, sets specific screening requirements, and chooses branding options.
+3.  **Input**: Pastes a link to a Google Sheet (linked to a candidate application form).
+4.  **Execution**: The background engine fetches resumes, parses text, and passes it to the AI for evaluation.
+5.  **Outreach**: Shortlisted candidates automatically receive branded interview invites, while Others receive professional rejection emails.
+6.  **Tracking**: Recruiter reviews the results and batch history through the analytics dashboard.
+
+---
+
+## 🚀 Future Roadmap
+- [ ] **Multi-Model Support**: Integration with OpenAI & Anthropic for flexible AI choices.
+- [ ] **Video Screening**: AI-driven analysis of video resume introductions.
+- [ ] **Collaborative Hiring**: Role-based access for teams to review candidates together.
 
 ---
 
