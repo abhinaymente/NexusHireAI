@@ -22,6 +22,8 @@ app = FastAPI()
 @app.on_event("startup")
 def on_startup():
     init_db()
+    port = os.getenv("PORT", "unknown")
+    print(f"--- NexusHire AI Starting on Port: {port} ---")
 
 # ---------- CORS ----------
 app.add_middleware(
